@@ -1,6 +1,6 @@
 import os
 from flask import Flask, jsonify, abort, request, make_response, url_for
-import box_handler
+from Ressources.box_handler import Box_Handler
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 port = int(os.getenv("PORT", 9099))
 
 
-BOXES = box_handler.Box_Handler().get_boxes()
+BOXES = Box_Handler().get_boxes()
 
 def abort_if_box_doesnt_exist(box_id):
     if box_id not in BOXES:
@@ -31,7 +31,6 @@ def hello_world():
 @app.route('/users/')
 def return_users():
     return jsonify({'tasks': BOXES})
-
 
 
 @app.route('/boxes/')
