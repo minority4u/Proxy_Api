@@ -6,9 +6,9 @@ Created on Mon Apr  2 12:06:14 2018
 @author: minority
 """
 import os
-from flask import Flask, jsonify, url_for
+from flask import Flask, url_for
 from flask_restful import reqparse, abort, Api, Resource
-from Ressources.box_handler import Box_Handler
+from core.box_handler import Box_Handler
 
 app = Flask(__name__)
 api = Api(app)
