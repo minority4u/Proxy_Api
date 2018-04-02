@@ -6,7 +6,7 @@ Created on Mon Apr  2 12:06:14 2018
 @author: minority
 """
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 from Ressources.box_handler import Box_Handler
 
@@ -39,7 +39,11 @@ def abort_if_box_doesnt_exist(box_id):
 class BaseDescription(Resource):
     def get(self):
         
-        return 'Proxy API! I am instance ' + str(os.getenv("CF_INSTANCE_INDEX", 0))
+        return jsonify({
+                'API': 'Proxy API!', 
+                'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
+                 'possible routes' : '/boxes/, /boxes/<box-id>'
+                 })
 
 
 # box
@@ -80,7 +84,7 @@ class BoxList(Resource):
 ##
 ## Actually setup the Api resource routing here
 ##
-
+api.add_resource(BaseDescription, '/')
 api.add_resource(BoxList, '/boxes/')
 api.add_resource(Box, '/boxes/<int:box_id>')
 
