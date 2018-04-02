@@ -20,7 +20,7 @@ python main.py
 
 # Project files
 
-* main.py
+* proxy_main.py
 Restful API based on Flask
 
 * Ressources folder
@@ -31,3 +31,13 @@ Applikation definition for deployment to Cloud Foundry
 
 * runtime.txt
 Defines the Python interpreter
+
+# Deployment
+
+zip the following files/folders:
+* proxy_main
+* requirements.txt
+* Ressources
+* runtime.txt
+
+Deploy zipfile and manifest.yml to cloud foundry
