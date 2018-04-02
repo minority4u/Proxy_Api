@@ -47,3 +47,4 @@ Deploy zipfile and manifest.yml to cloud foundry
 * Add minor comments
 * Add local debugger
 * Add test-client for automated tests
+* add database instead of simple json objects

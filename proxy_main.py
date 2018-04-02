@@ -32,14 +32,9 @@ def abort_if_box_doesnt_exist(box_id):
     if box_id not in BOXES:
         abort(404, message="box {} doesn't exist".format(box_id))
         
-def make_public(box):
-    public_box = {}
-    for field in box:
-        if field == 'id':
-            public_box['uri'] = url_for('box',box_id=box[field],_external=True)
-        else:
-            public_box[field] = box[field]
-    return public_box      
+def make_public(box, box_id):
+    box['uri'] = url_for('box',box_id=box_id,_external=True)
+    return box      
         
 
 # box
@@ -59,7 +54,7 @@ class BaseDescription(Resource):
 class Box(Resource):
     def get(self, box_id):
         abort_if_box_doesnt_exist(box_id)
-        return make_public(BOXES[box_id])
+        return make_public(BOXES[box_id], box_id)
 
     def delete(self, box_id):
         abort_if_box_doesnt_exist(box_id)
@@ -72,21 +67,21 @@ class Box(Resource):
         box = BOXES[box_id]
         box.update(args)
         BOXES[box_id] = box
-        return make_public(box), 201
+        return make_public(box, box_id), 201
 
 
 # boxList
 # shows a list of all BOXES, and lets you POST to add new tasks
 class BoxList(Resource):
     def get(self):
-        return dict((k,make_public(v)) for k,v in BOXES.items())
+        return dict((k,make_public(v, k)) for k,v in BOXES.items())
 
     def post(self):
         args = parser.parse_args()
-        box_id = int(max(BOXES.keys()).lstrip('box')) + 1
-        box_id = 'box%i' % box_id
-        BOXES[box_id] = {'task': args['task']}
-        return BOXES[box_id], 201
+        box_id = int(max(BOXES.keys())) + 1
+        box_id = box_id
+        BOXES[box_id] = args
+        return make_public(BOXES[box_id], box_id), 201
 
 ##
 ## Actually setup the Api resource routing here
