@@ -1,8 +1,8 @@
 ---
 applications:
-- name: proxyapitest
+- name: proxyapitestflask
   memory: 256MB
   disk_quota: 256MB
   random-route: true
   buildpack: python_buildpack
-  command: python main.py
+  command: python test.py

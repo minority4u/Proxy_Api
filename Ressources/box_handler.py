@@ -6,6 +6,7 @@
 
 class Box_Handler():
     def __init__(self):
+        self.args = ['id','title','sender','receiver','status']
         self.boxes = {
     1 : {
         'id': 1,
@@ -45,6 +46,9 @@ class Box_Handler():
 }
     def get_boxes(self):
         return self.boxes
+    
+    def get_args(self):
+        return self.args
     
 if __name__ == '__main__':
     print(Box_Handler().get_boxes())
