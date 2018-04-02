@@ -6,7 +6,7 @@ Created on Mon Apr  2 12:06:14 2018
 @author: minority
 """
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, url_for
 from flask_restful import reqparse, abort, Api, Resource
 from Ressources.box_handler import Box_Handler
 
@@ -31,19 +31,27 @@ for box_arg in BOX_ARGS:
 def abort_if_box_doesnt_exist(box_id):
     if box_id not in BOXES:
         abort(404, message="box {} doesn't exist".format(box_id))
-
-
+        
+def make_public(box):
+    public_box = {}
+    for field in box:
+        if field == 'id':
+            public_box['uri'] = url_for('box',box_id=box[field],_external=True)
+        else:
+            public_box[field] = box[field]
+    return public_box      
+        
 
 # box
 # shows a single box item and lets you delete a box item
 class BaseDescription(Resource):
     def get(self):
         
-        return jsonify({
+        return {
                 'API': 'Proxy API!', 
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
                  'possible routes' : '/boxes/, /boxes/<box-id>'
-                 })
+                 }
 
 
 # box
@@ -51,7 +59,7 @@ class BaseDescription(Resource):
 class Box(Resource):
     def get(self, box_id):
         abort_if_box_doesnt_exist(box_id)
-        return BOXES[box_id]
+        return make_public(BOXES[box_id])
 
     def delete(self, box_id):
         abort_if_box_doesnt_exist(box_id)
@@ -61,18 +69,17 @@ class Box(Resource):
     def put(self, box_id):
         abort_if_box_doesnt_exist(box_id)
         args = parser.parse_args()
-        # create a new box from submitted args
         box = BOXES[box_id]
         box.update(args)
         BOXES[box_id] = box
-        return box, 201
+        return make_public(box), 201
 
 
 # boxList
 # shows a list of all BOXES, and lets you POST to add new tasks
 class BoxList(Resource):
     def get(self):
-        return BOXES
+        return dict((k,make_public(v)) for k,v in BOXES.items())
 
     def post(self):
         args = parser.parse_args()
