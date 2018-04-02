@@ -1,6 +1,6 @@
 # Description
 Simple python based API project for CloudFoundry based deployment.
-Uses Python 3.4.x
+Uses Python 3.6.x
 
 
 # Setup

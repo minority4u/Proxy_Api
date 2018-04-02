@@ -15,22 +15,31 @@ api = Api(app)
 # Get port from environment variable or choose 9099 as local default
 port = int(os.getenv("PORT", 9088))
 
+# create some data to play around with
 Data_Handler = Box_Handler()
-
 BOXES = Data_Handler.get_boxes()
-ARGS = Data_Handler.get_args()
+BOX_ARGS = Data_Handler.get_args()
+
+# register all valid submitted arguments
+parser = reqparse.RequestParser()
+for box_arg in BOX_ARGS:
+    print('register argument ' + box_arg)
+    parser.add_argument(box_arg, required=True)
+
 
 
 def abort_if_box_doesnt_exist(box_id):
     if box_id not in BOXES:
         abort(404, message="box {} doesn't exist".format(box_id))
 
-parser = reqparse.RequestParser()
-parser.add_argument('id')
-parser.add_argument('title')
-parser.add_argument('sender')
-parser.add_argument('receiver')
-parser.add_argument('status')
+
+
+# box
+# shows a single box item and lets you delete a box item
+class BaseDescription(Resource):
+    def get(self):
+        
+        return 'Proxy API! I am instance ' + str(os.getenv("CF_INSTANCE_INDEX", 0))
 
 
 # box
@@ -46,10 +55,13 @@ class Box(Resource):
         return '', 204
 
     def put(self, box_id):
+        abort_if_box_doesnt_exist(box_id)
         args = parser.parse_args()
-        task = {'task': args['task']}
-        BOXES[box_id] = task
-        return task, 201
+        # create a new box from submitted args
+        box = BOXES[box_id]
+        box.update(args)
+        BOXES[box_id] = box
+        return box, 201
 
 
 # boxList
@@ -68,8 +80,9 @@ class BoxList(Resource):
 ##
 ## Actually setup the Api resource routing here
 ##
-api.add_resource(BoxList, '/boxes')
-api.add_resource(Box, '/box/<box_id>')
+
+api.add_resource(BoxList, '/boxes/')
+api.add_resource(Box, '/boxes/<int:box_id>')
 
 
 if __name__ == '__main__':
