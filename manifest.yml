@@ -1,6 +1,6 @@
 ---
 applications:
-- name: proxyapi
+- name: proxyapi01
   memory: 256MB
   disk_quota: 256MB
   random-route: true
