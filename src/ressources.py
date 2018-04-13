@@ -37,7 +37,15 @@ box_fields = {
              
             }
 
-
+box_fields_a = {
+             'id':fields.Integer,
+             'uri' : fields.Url('boxressource', absolute=True),
+             'name' : fields.String,
+             'status' : fields.String,
+             'weight' : fields.String,
+             'size' : fields.String
+             
+            }
 
 # register all valid submitted arguments
 parser = reqparse.RequestParser()
@@ -48,15 +56,15 @@ for box_arg in BOX_ARGS:
 
 
 
-# box
-# shows a single box item and lets you delete a box item
+# root
+# shows the possible routes
 class BaseDescriptionRessource(Resource):            
     def get(self):
         
         return {
-                'API': 'Proxy API!', 
+                'API': 'Proxy API v0.2!', 
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
-                 'possible routes' : '/boxes/, /boxes/<box-id>'
+                 'possible routes' : '/boxes/, /boxes/<int:box-id>'
                  }
         
 
@@ -93,7 +101,7 @@ class BoxRessource(Resource):
 # shows a list of all BOXES, and lets you POST to add a new box
 class BoxListRessource(Resource):
     
-    @marshal_with(box_fields)
+    @marshal_with(box_fields_a)
     def get(self):
         boxes = session.query(Box).all()
         print(boxes)

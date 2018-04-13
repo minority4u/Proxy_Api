@@ -65,7 +65,7 @@ def init():
                                city = 'Happyplace',
                                post_code = '12077')
         session.add(new_address2)
-        new_box = Box(id=100100+x,
+        new_box = Box(id=10100+x,
                       name='new box' + str(x), 
                       addr_c=new_address1, 
                       addr_d=new_address2,
