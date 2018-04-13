@@ -37,7 +37,7 @@ box_fields = {
              
             }
 
-box_fields_a = {
+box_fields_reduced = {
              'id':fields.Integer,
              'uri' : fields.Url('boxressource', absolute=True),
              'name' : fields.String,
@@ -49,10 +49,10 @@ box_fields_a = {
 
 # register all valid submitted arguments
 parser = reqparse.RequestParser()
-BOX_ARGS = ['name']
+BOX_ARGS = ['name', 'status', 'weight', 'size']
 for box_arg in BOX_ARGS:
     print('register argument ' + box_arg)
-    parser.add_argument(box_arg, required=True)
+    parser.add_argument(box_arg, location = ['headers','form','args'])
 
 
 
@@ -89,10 +89,22 @@ class BoxRessource(Resource):
 
     @marshal_with(box_fields)
     def put(self, id):
-        parsed_args = parser.parse_args()
         box = session.query(Box).filter(Box.id == id).first()
-        box.name = parsed_args['name']
-        session.add(box)
+        if not box:
+            abort(404, message="Box {} doesn't exist".format(id))
+        
+        parsed_args = parser.parse_args()
+        if 'name' in parsed_args:
+            box.name = parsed_args['name']
+        if 'status' in parsed_args:
+            box.status = parsed_args['status']
+        if 'weight' in parsed_args:
+            box.weight = parsed_args['weight']
+        if 'size' in parsed_args:
+            box.size = parsed_args['size']
+
+#        session.update
+#       session.add(box)
         session.commit()
         return box, 201
 
@@ -101,7 +113,7 @@ class BoxRessource(Resource):
 # shows a list of all BOXES, and lets you POST to add a new box
 class BoxListRessource(Resource):
     
-    @marshal_with(box_fields_a)
+    @marshal_with(box_fields_reduced)
     def get(self):
         boxes = session.query(Box).all()
         print(boxes)
@@ -110,7 +122,7 @@ class BoxListRessource(Resource):
     @marshal_with(box_fields)
     def post(self):
         parsed_args = parser.parse_args()
-        box = Box(name=parsed_args['name'])
+        box = Box(**parsed_args)
         session.add(box)
         session.commit()
         return box, 201

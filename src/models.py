@@ -51,6 +51,8 @@ def init():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     from src.db import session
+    
+    # create 10 initial boxes
     for x in range(0,10):
         new_address1 = Address(name = 'Buffer Location 221'+str(x),
                                str_name = 'testroad 1',
