@@ -7,24 +7,8 @@
 class Box_Handler():
     def __init__(self):
         self.args = ['title','sender','receiver','status']
-        self.args = ['current_FirstName', 
-                     'current_LastName', 
-                     'current_Street',
-                     'current_StreetNo',
-                     'current_Plz', 
-                     'current_City',
-                     'current_Country',
-                    'current_StartDate',
-                    'current_EndDate',
-                    'destination_FirstName',
-                    'destination_LastName',
-                    'destination_Street',
-                    'destination_StreetNo',
-                    'destination_Plz',
-                    'destination_City',
-                    'destination_Country',
-                    'destination_StartDate',
-                    'destination_EndDate',
+        self.args = ['current_adress',
+                    'destination_adress',
                     'status',
                     'size',
                     'weight']
