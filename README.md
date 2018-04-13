@@ -1,15 +1,23 @@
 # Description
 Very simple python based API project for CloudFoundry based deployment.
-Uses Python 3.6.x
-Uses Flask and Flask-Restful
+* Python 3.6.x
+* FFlask==0.12.2
+* SQLAlchemy==1.2.6
+* Flask-RESTful==0.3.6
+
 
 
 # Setup
 
+* install Python 3.6.x
+* install virtualenv
 * Clone repo
-* virtualenv -p python3 venv
-* pip install -r requirements.txt
-* local run with: python proxy_main.py
+* create a virtual environment within the repo folder
+** virtualenv -p python3 venv
+* install all dependencies
+** pip install -r requirements.txt
+* local deployment with
+** python proxy_main.py
 
 # Project files
 
@@ -19,18 +27,17 @@ API and Ressources within one file to keep it simple
 
 * src folder
 model, resources and helper files
-Currently there is a box_handler which encapuslates the box creating
 
 * manifest.yml
 Applikation definition for deployment to Cloud Foundry
 
-* requierements.txt
+* requirements.txt
 For easy dependency installation via pip
 
 * runtime.txt
 Defines the Python interpreter
 
-# Deployment
+# Deployment to cloud foundry
 
 zip the following files/folders:
 * proxy_main
@@ -42,9 +49,8 @@ Deploy zipfile and manifest.yml to cloud foundry
 
 # TODO
 * Code refactoring
-* Encapsulate model and resource definition
 * Integrate swagger
 * Add minor comments
 * Add local debugger
 * Add test-client for automated tests
-* add database instead of simple json objects
+
