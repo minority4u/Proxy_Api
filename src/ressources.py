@@ -8,10 +8,30 @@ from flask_restful import reqparse, abort, Resource, fields, marshal_with
 
 ######## setup some global objects #########
 
+address_fields_c = {
+        'id': fields.Integer,
+     'name':fields.String,
+     'str_name':fields.String,
+     'str_no':fields.String,
+     'city' : fields.String,
+     'post_code':fields.String}
+
+address_fields_d = {
+        'id': fields.Integer,
+     'name':fields.String,
+     'str_name':fields.String,
+     'str_no':fields.String,
+     'post_code':fields.String}
+
+
 box_fields = {
              'id':fields.Integer,
+             'uri' : fields.Url('boxressource', absolute=True),
              'name' : fields.String,
-             'uri' : fields.Url('boxressource', absolute=True)
+             'addr_c' :fields.Nested(address_fields_c),
+             'addr_d': fields.Nested(address_fields_d),
+             
+             
             }
 
 
@@ -73,6 +93,7 @@ class BoxListRessource(Resource):
     @marshal_with(box_fields)
     def get(self):
         boxes = session.query(Box).all()
+        print(boxes)
         return boxes
     
     @marshal_with(box_fields)

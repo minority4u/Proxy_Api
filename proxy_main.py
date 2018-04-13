@@ -9,13 +9,13 @@ import os
 from flask import Flask
 from flask_restful import Api
 from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource
+from src.models import init
 
 app = Flask(__name__)
 api = Api(app)
 # Get port from environment variable or choose 9099 as local default
 port = int(os.getenv("PORT", 9088))
-
-
+init()
 
 ##
 ## Actually setup the Api resource routing here

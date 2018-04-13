@@ -6,7 +6,7 @@
 
 class Box_Handler():
     def __init__(self):
-        self.args = ['title','sender','receiver','status']
+        #self.args = ['title','sender','receiver','status']
         self.args = ['current_adress',
                     'destination_adress',
                     'status',
