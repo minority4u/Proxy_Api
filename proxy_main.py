@@ -22,7 +22,7 @@ port = int(os.getenv("PORT", 9088))
 ##
 api.add_resource(BaseDescriptionRessource, '/')
 api.add_resource(BoxListRessource, '/boxes/')
-api.add_resource(BoxRessource, '/boxes/<int:box_id>')
+api.add_resource(BoxRessource, '/boxes/<int:id>')
 
 
 if __name__ == '__main__':

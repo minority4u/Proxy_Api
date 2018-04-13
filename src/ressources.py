@@ -1,28 +1,24 @@
 # -*- coding: utf-8 -*-
+from src.models import Box
+from src.db import session
 
 import os
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
-from flask import url_for
-from src.model_manager import BoxManager
+
 
 ######## setup some global objects #########
 
 box_fields = {
-             #'box_id' : fields.Integer,
-            'current_adress' : fields.Nested({
-                    'first_name' : fields.String}),
-            'destination_adress' : fields.Nested({
-                    'first_name' : fields.String}),
-            'status' : fields.String,
-            'size' : fields.String,
-            'weight' : fields.String
+             'id':fields.Integer,
+             'name' : fields.String,
+             'uri' : fields.Url('boxressource', absolute=True)
             }
 
 
-box_manager = BoxManager()
+
 # register all valid submitted arguments
 parser = reqparse.RequestParser()
-BOX_ARGS = ['box_id','current_adress','destination_adress','status','size','weight']
+BOX_ARGS = ['name']
 for box_arg in BOX_ARGS:
     print('register argument ' + box_arg)
     parser.add_argument(box_arg, required=True)
@@ -44,46 +40,48 @@ class BaseDescriptionRessource(Resource):
 # box
 # shows a single box item and lets you delete a box item
 class BoxRessource(Resource):
-    
-    def abort_if_box_doesnt_exist(self, box_id):
-        if box_id not in box_manager.boxes:
-            abort(404, message="box {} doesn't exist".format(box_id))
-            
-    def make_public(self, box, box_id):
-        box['uri'] = url_for('boxressource',box_id=box_id,_external=True)
-        return box  
             
     @marshal_with(box_fields)
-    def get(self, box_id):
-        self.abort_if_box_doesnt_exist(box_id)
-        return self.make_public(box_manager.get_box(box_id), box_id)
+    def get(self, id):
+        box = session.query(Box).filter(Box.id == id).first()
+        if not box:
+            abort(404, message="Box {} doesn't exist".format(id))
+        return box
 
-    def delete(self, box_id):
-        self.abort_if_box_doesnt_exist(box_id)
-        box_manager.delete(box_id)
-        return '', 204
+    def delete(self, id):
+        box = session.query(Box).filter(Box.id == id).first()
+        if not box:
+            abort(404, message="Box {} doesn't exist".format(id))
+        session.delete(box)
+        session.commit()
+        return {}, 204
 
     @marshal_with(box_fields)
-    def put(self, box_id):
-        self.abort_if_box_doesnt_exist(box_id)
-        args = self.parser.parse_args()
-        box = box_manager.get_box(box_id)
-        box.update(args)
-        #box_manager[box_id] = box
-        return self.make_public(box, box_id), 201
+    def put(self, id):
+        parsed_args = parser.parse_args()
+        box = session.query(Box).filter(Box.id == id).first()
+        box.name = parsed_args['name']
+        session.add(box)
+        session.commit()
+        return box, 201
 
 
 # boxList
-# shows a list of all BOXES, and lets you POST to add new tasks
+# shows a list of all BOXES, and lets you POST to add a new box
 class BoxListRessource(Resource):
-    
-    def make_public(box, box_id):
-        box['uri'] = url_for('boxressource',box_id=box_id,_external=True)
-        return box 
     
     @marshal_with(box_fields)
     def get(self):
-        return [self.make_public(v) for v in box_manager.boxes.values()]
+        boxes = session.query(Box).all()
+        return boxes
+    
+    @marshal_with(box_fields)
+    def post(self):
+        parsed_args = parser.parse_args()
+        box = Box(name=parsed_args['name'])
+        session.add(box)
+        session.commit()
+        return box, 201
 
     
     
