@@ -60,9 +60,10 @@ for box_arg in BOX_ARGS:
 # shows the possible routes
 class BaseDescriptionRessource(Resource):            
     def get(self):
-        
+   
         return {
-                'API': 'Proxy API v0.2!', 
+                'App': 'Proxy API!',
+                'vers.:' : 'vers.: 0.2',
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
                  'possible routes' : '/boxes/, /boxes/<int:box-id>'
                  }
@@ -103,8 +104,6 @@ class BoxRessource(Resource):
         if 'size' in parsed_args:
             box.size = parsed_args['size']
 
-#        session.update
-#       session.add(box)
         session.commit()
         return box, 201
 
