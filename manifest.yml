@@ -1,7 +1,7 @@
 ---
 applications:
-- name: proxyapi01
-  memory: 256MB
+- name: proxyapi02
+  memory: 512MB
   disk_quota: 256MB
   random-route: true
   buildpack: python_buildpack

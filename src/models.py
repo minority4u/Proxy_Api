@@ -38,6 +38,9 @@ class Box(Base):
     
     addr_d_id = Column(Integer, ForeignKey('address.id'))
     addr_d = relationship(Address, foreign_keys=[addr_d_id], lazy = 'joined')
+    status = Column(String(250))
+    weight = Column(String(250))
+    size = Column(String(250))
 
 
 
@@ -48,32 +51,29 @@ def init():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     from src.db import session
-    
-    new_address1 = Address(name = 'Buffer Location 2213',
-                           str_name = 'testroad 1',
-                           str_no = '112',
-                           city = 'Testhausen',
-                           post_code = '77682')
-    
-    session.add(new_address1)
-    session.commit()
-    new_address2 = Address(name='Paul Gluecklich',
-                           str_name = 'target road',
-                           str_no = '22a',
-                           city = 'Happyplace',
-                           post_code = '12077')
-    session.add(new_address2)
-    session.commit()
-    new_box = Box(name='new box', addr_c=new_address1, addr_d=new_address2)
-    
-    session.add(new_box)
-    
-
-    
-#    new_address = Address(street_name='Teststreet', person = new_person)
-#    session.add(new_address)
-    
-    session.commit()
+    for x in range(0,10):
+        new_address1 = Address(name = 'Buffer Location 221'+str(x),
+                               str_name = 'testroad 1',
+                               str_no = '112',
+                               city = 'Testhausen',
+                               post_code = '77682')
+        
+        session.add(new_address1)
+        new_address2 = Address(name='Paul Gluecklich' + str(x),
+                               str_name = 'target road',
+                               str_no = '22a',
+                               city = 'Happyplace',
+                               post_code = '12077')
+        session.add(new_address2)
+        new_box = Box(id=100100+x,
+                      name='new box' + str(x), 
+                      addr_c=new_address1, 
+                      addr_d=new_address2,
+                      status = 'ready to ship',
+                      weight = '2kg',
+                      size = 'M')
+        session.add(new_box) 
+        session.commit()
 
         
 if __name__ == '__main__':

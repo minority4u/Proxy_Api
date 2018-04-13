@@ -21,6 +21,7 @@ address_fields_d = {
      'name':fields.String,
      'str_name':fields.String,
      'str_no':fields.String,
+     'city' : fields.String,
      'post_code':fields.String}
 
 
@@ -30,7 +31,9 @@ box_fields = {
              'name' : fields.String,
              'addr_c' :fields.Nested(address_fields_c),
              'addr_d': fields.Nested(address_fields_d),
-             
+             'status' : fields.String,
+             'weight' : fields.String,
+             'size' : fields.String
              
             }
 
