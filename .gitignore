@@ -112,3 +112,4 @@ venv.bak/
 
 # runtime database
 *.db
+*.db

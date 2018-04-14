@@ -9,13 +9,22 @@ import os
 from flask import Flask
 from flask_restful import Api
 from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource
-from src.models import init
+from src.models import init_database
+from src.settings import API_PORT
+from src.settings import APP_CONFIG
+
 
 app = Flask(__name__)
 api = Api(app)
-# Get port from environment variable or choose 9099 as local default
-port = int(os.getenv("PORT", 9088))
-init()
+
+# define the overall app configuration
+app.config.update(APP_CONFIG)
+
+# Get port from environment variable or choose 9088 as local default
+port = int(os.getenv("PORT", API_PORT))
+
+# drop the old table, setup a new database if no exists, create tables
+init_database()
 
 ##
 ## Actually setup the Api resource routing here
