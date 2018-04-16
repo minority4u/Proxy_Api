@@ -14,7 +14,11 @@ address_fields_c = {
      'str_name':fields.String,
      'str_no':fields.String,
      'city' : fields.String,
-     'post_code':fields.String}
+     'post_code':fields.String,
+    'country' : fields.String,
+    'start_date': fields.DateTime,
+    'end_date': fields.DateTime,
+}
 
 address_fields_d = {
         'id': fields.Integer,
@@ -22,18 +26,24 @@ address_fields_d = {
      'str_name':fields.String,
      'str_no':fields.String,
      'city' : fields.String,
-     'post_code':fields.String}
+     'post_code':fields.String,
+    'country' : fields.String,
+    'start_date': fields.DateTime,
+    'end_date': fields.DateTime,
+}
 
 
 box_fields = {
              'id':fields.Integer,
              'uri' : fields.Url('boxressource', absolute=True),
              'name' : fields.String,
+            'status': fields.String,
+            'weight': fields.String,
+            'size': fields.String,
+
              'addr_c' :fields.Nested(address_fields_c),
              'addr_d': fields.Nested(address_fields_d),
-             'status' : fields.String,
-             'weight' : fields.String,
-             'size' : fields.String
+
              
             }
 
@@ -43,7 +53,7 @@ box_fields_reduced = {
              'name' : fields.String,
              'status' : fields.String,
              'weight' : fields.String,
-             'size' : fields.String
+             'size' : fields.String,
              
             }
 

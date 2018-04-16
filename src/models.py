@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import datetime
 
-from sqlalchemy import Column
+from sqlalchemy import Column, Date, DateTime
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
@@ -16,15 +17,19 @@ Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 
+
 class Address(Base):
+
      __tablename__ = 'address'
      id = Column(Integer, primary_key=True)
      name = Column(String(250))
-     str_name = Column(String(250))
-     str_no = Column(String(250))
-     city = Column(String(250))
-     post_code = Column(String(250))
-
+     str_name = Column(String(50))
+     str_no = Column(String(10))
+     city = Column(String(30))
+     post_code = Column(String(10))
+     country = Column(String(50))
+     start_date = Column(DateTime, default=datetime.datetime.utcnow)
+     end_date = Column(DateTime, default=datetime.datetime.utcnow)
 
 
 
@@ -58,14 +63,18 @@ def init_database():
                                str_name = 'testroad 1',
                                str_no = '112',
                                city = 'Testhausen',
-                               post_code = '77682')
+                               post_code = '77682',
+                               country = 'Germany',
+                               )
         
         session.add(new_address1)
         new_address2 = Address(name='Paul Gluecklich' + str(x),
                                str_name = 'target road',
                                str_no = '22a',
                                city = 'Happyplace',
-                               post_code = '12077')
+                               post_code = '12077',
+                               country = 'Germany',
+                               )
         session.add(new_address2)
         new_box = Box(id=10100+x,
                       name='new box' + str(x), 
@@ -73,7 +82,8 @@ def init_database():
                       addr_d=new_address2,
                       status = 'ready to ship',
                       weight = '2kg',
-                      size = 'M')
+                      size = 'M'
+                      )
         session.add(new_box) 
         session.commit()
 
