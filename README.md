@@ -1,7 +1,7 @@
 # Description
 Very simple python based API project for CloudFoundry based deployment.
 * Python 3.6.x
-* FFlask==0.12.2
+* Flask==0.12.2
 * SQLAlchemy==1.2.6
 * Flask-RESTful==0.3.6
 
