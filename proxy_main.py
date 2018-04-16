@@ -13,7 +13,6 @@ from src.models import init_database
 from src.settings import API_PORT
 from src.settings import APP_CONFIG
 
-
 app = Flask(__name__)
 api = Api(app)
 
