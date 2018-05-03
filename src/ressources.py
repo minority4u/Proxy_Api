@@ -80,14 +80,16 @@ class BaseDescriptionRessource(Resource):
    
         return {
                 'App': 'Proxy API!',
-                'vers.:' : 'vers.: 0.2',
+                'vers.:' : 'vers.: 0.3',
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
-                 'possible routes' : '/boxes/, /boxes/<int:box-id>'
+                 'possible routes' : {
+                        'Box' : '/boxes/, /boxes/<int:box-id>',
+                        'Adress' : '/addresses/, /addresses/<int:box-id>'}
                  }
 
 
-# box
-# shows a single box item and lets you delete a box item
+# address
+# shows a single address item and lets you change and delete a address item
 class AddressRessource(Resource):
 
     @marshal_with(address_fields_d)
@@ -120,7 +122,7 @@ class AddressRessource(Resource):
         return address, 201
 
 # box
-# shows a single box item and lets you delete a box item
+# shows a single box item and lets you vhange and delete a box item
 class BoxRessource(Resource):
             
     @marshal_with(box_fields)
@@ -172,8 +174,8 @@ class BoxListRessource(Resource):
         return box, 201
 
 
-# boxList
-# shows a list of all BOXES, and lets you POST to add a new box
+# addressList
+# shows a list of all Addresses, and lets you POST to add a new address
 class AddressListRessource(Resource):
 
     @marshal_with(address_fields_c)
