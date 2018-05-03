@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.models import Box
+from src.models import Box, Address
 from src.db import session
 
 import os
@@ -54,14 +54,21 @@ box_fields_reduced = {
              'status' : fields.String,
              'weight' : fields.String,
              'size' : fields.String,
-             
             }
 
-# register all valid submitted arguments
+# register valid params
 parser = reqparse.RequestParser()
+
+# register all valid Address  arguments
+ADDRESS_ARGS = ['name', 'str_name', 'str_no', 'city', 'post_code', 'country','start_date', 'end_date']
+for addr_arg in ADDRESS_ARGS:
+    print('register Address argument ' + addr_arg)
+    parser.add_argument(addr_arg, location = ['headers','form','args'])
+
+# register all valid Box  arguments
 BOX_ARGS = ['name', 'status', 'weight', 'size']
 for box_arg in BOX_ARGS:
-    print('register argument ' + box_arg)
+    print('register Box argument ' + box_arg)
     parser.add_argument(box_arg, location = ['headers','form','args'])
 
 
@@ -77,7 +84,40 @@ class BaseDescriptionRessource(Resource):
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
                  'possible routes' : '/boxes/, /boxes/<int:box-id>'
                  }
-        
+
+
+# box
+# shows a single box item and lets you delete a box item
+class AddressRessource(Resource):
+
+    @marshal_with(address_fields_d)
+    def get(self, id):
+        address = session.query(Address).filter(Address.id == id).first()
+        if not address:
+            abort(404, message="Address {} doesn't exist".format(id))
+        return address
+
+    def delete(self, id):
+        address = session.query(Address).filter(Address.id == id).first()
+        if not address:
+            abort(404, message="Box {} doesn't exist".format(id))
+        session.delete(address)
+        session.commit()
+        return {}, 204
+
+    @marshal_with(address_fields_d)
+    def put(self, id):
+        address = session.query(Address).filter(Address.id == id).first()
+        if not address:
+            abort(404, message="Address {} doesn't exist".format(id))
+
+        parsed_args = parser.parse_args()
+        for addr_arg in ADDRESS_ARGS:
+            if addr_arg in parsed_args and parsed_args[addr_arg]:
+                setattr(address, addr_arg, parsed_args[addr_arg])
+
+        session.commit()
+        return address, 201
 
 # box
 # shows a single box item and lets you delete a box item
@@ -103,16 +143,11 @@ class BoxRessource(Resource):
         box = session.query(Box).filter(Box.id == id).first()
         if not box:
             abort(404, message="Box {} doesn't exist".format(id))
-        
+
         parsed_args = parser.parse_args()
-        if 'name' in parsed_args:
-            box.name = parsed_args['name']
-        if 'status' in parsed_args:
-            box.status = parsed_args['status']
-        if 'weight' in parsed_args:
-            box.weight = parsed_args['weight']
-        if 'size' in parsed_args:
-            box.size = parsed_args['size']
+        for box_arg in BOX_ARGS:
+            if box_arg in parsed_args and parsed_args[box_arg]:
+                setattr(box, box_arg, parsed_args[box_arg])
 
         session.commit()
         return box, 201
@@ -136,7 +171,24 @@ class BoxListRessource(Resource):
         session.commit()
         return box, 201
 
-    
+
+# boxList
+# shows a list of all BOXES, and lets you POST to add a new box
+class AddressListRessource(Resource):
+
+    @marshal_with(address_fields_c)
+    def get(self):
+        addresses = session.query(Address).all()
+        print(addresses)
+        return addresses
+
+    @marshal_with(address_fields_c)
+    def post(self):
+        parsed_args = parser.parse_args()
+        address = Address(**parsed_args)
+        session.add(address)
+        session.commit()
+        return address, 201
     
     
     

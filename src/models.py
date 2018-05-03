@@ -40,7 +40,6 @@ class Box(Base):
     name = Column(String(250))
     addr_c_id = Column(Integer, ForeignKey('address.id'))
     addr_c = relationship(Address,foreign_keys=[addr_c_id], lazy='joined')
-    
     addr_d_id = Column(Integer, ForeignKey('address.id'))
     addr_d = relationship(Address, foreign_keys=[addr_d_id], lazy = 'joined')
     status = Column(String(250))

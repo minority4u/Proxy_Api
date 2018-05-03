@@ -8,7 +8,7 @@ Created on Mon Apr  2 12:06:14 2018
 import os
 from flask import Flask
 from flask_restful import Api
-from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource
+from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource, AddressListRessource, AddressRessource
 from src.models import init_database
 from src.settings import API_PORT
 from src.settings import APP_CONFIG
@@ -31,6 +31,9 @@ init_database()
 api.add_resource(BaseDescriptionRessource, '/')
 api.add_resource(BoxListRessource, '/boxes/')
 api.add_resource(BoxRessource, '/boxes/<int:id>')
+api.add_resource(AddressListRessource, '/addresses/')
+api.add_resource(AddressRessource, '/addresses/<int:id>')
+
 
 
 if __name__ == '__main__':
