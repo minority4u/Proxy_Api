@@ -9,7 +9,8 @@ import os
 from flask import Flask
 from flask_restful import Api
 from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource, AddressListRessource, AddressRessource
-from src.models import init_database
+#from src.models import init_database
+from src.model_setup import init_database
 from src.settings import API_PORT
 from src.settings import APP_CONFIG
 
