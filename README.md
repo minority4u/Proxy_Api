@@ -21,9 +21,7 @@ Very simple python based API project for CloudFoundry based deployment.
 
 # Project overview
 
-![Project Overview](diagrams/Proxy_API Class diagram.png)
-
-
+![Project Overview](https://github.com/minority4u/Proxy_Api/blob/master/diagrams/Proxy_API%20Class%20diagram.png)
 
 
 * proxy_main.py
