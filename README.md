@@ -19,14 +19,18 @@ Very simple python based API project for CloudFoundry based deployment.
 * local deployment with
 ** python proxy_main.py
 
-# Project files
+# Project overview
+
+![Project Overview](diagrams/Proxy_API Class diagram.png)
+
+
+
 
 * proxy_main.py
 Restful API based on Flask
-API and Ressources within one file to keep it simple
 
 * src folder
-model, resources and helper files
+Contains the following modules: db, marshall_fields, model_setup, models, ressources, settings, status
 
 * manifest.yml
 Applikation definition for deployment to Cloud Foundry
