@@ -34,7 +34,6 @@ box_fields = {
     'status': fields.String,
     'weight': fields.String,
     'size': fields.String,
-
     'addr_c' :fields.Nested(address_fields_c),
     'addr_d': fields.Nested(address_fields_d),
 
@@ -48,3 +47,21 @@ box_fields_reduced = {
     'weight': fields.String,
     'size': fields.String,
 }
+
+possible_routes_fields = {
+    'Box' : fields.String,
+    'Address' : fields.String
+}
+
+base_field_customer = {
+    'App' : fields.String,
+    'Version' : fields.String
+}
+
+base_field_full = {
+    'App' : fields.String,
+    'Version' : fields.String,
+    'Instance' : fields.String,
+    'possible_routes' : fields.Nested(possible_routes_fields)
+}
+

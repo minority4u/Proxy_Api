@@ -11,7 +11,7 @@ from flask_restful import Api
 from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource, AddressListRessource, AddressRessource
 #from src.models import init_database
 from src.model_setup import init_database
-from src.settings import API_PORT
+#from src.settings import API_PORT
 from src.settings import APP_CONFIG
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ api = Api(app)
 app.config.update(APP_CONFIG)
 
 # Get port from environment variable or choose 9088 as local default
-port = int(os.getenv("PORT", API_PORT))
+port = int(os.getenv("PORT", APP_CONFIG['SERVER_PORT']))
 
 # drop the old table, setup a new database if no exists, create tables
 init_database()

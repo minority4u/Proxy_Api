@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import os
 
 from sqlalchemy import Column, Date, DateTime
 from sqlalchemy import Integer
@@ -17,6 +18,15 @@ Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 
+# Define the current Version for api endpoint description
+Rootdescription = {
+                'App': 'Proxy API!',
+                'Version' : '0.3',
+                'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)),
+                 'possible_routes' : {
+                        'Box' : '/boxes/, /boxes/<int:box-id>',
+                        'Address' : '/addresses/, /addresses/<int:box-id>'}
+                 }
 
 class Address(Base):
 

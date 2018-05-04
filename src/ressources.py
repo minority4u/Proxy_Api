@@ -1,46 +1,36 @@
 # -*- coding: utf-8 -*-
-from src.models import Box, Address
+from src.models import Box, Address, Rootdescription
 from src.db import session
 from src.marshall_fields import *
+from src.settings import valid_request_arguments
+from flask_restful import reqparse, abort, Resource, marshal_with, marshal
 
-import os
-from flask_restful import reqparse, abort, Resource, fields, marshal_with
+def create_request_parser(request_args):
+    # register valid params
+    parser = reqparse.RequestParser()
+    for key, value in request_args.items():
+        for arg in value:
+            print('register {0:s} argument: {1:s}'.format(key,arg))
+            parser.add_argument(arg,location = ['headers', 'form', 'args'])
+    return parser
 
 
-######## setup some global objects #########
+# setup some module objects
+parser = create_request_parser(request_args=valid_request_arguments)
 
-
-
-# register valid params
-parser = reqparse.RequestParser()
-
-# register all valid Address  arguments
-ADDRESS_ARGS = ['name', 'str_name', 'str_no', 'city', 'post_code', 'country','start_date', 'end_date']
-for addr_arg in ADDRESS_ARGS:
-    print('register Address argument ' + addr_arg)
-    parser.add_argument(addr_arg, location = ['headers','form','args'])
-
-# register all valid Box  arguments
-BOX_ARGS = ['name', 'status', 'weight', 'size']
-for box_arg in BOX_ARGS:
-    print('register Box argument ' + box_arg)
-    parser.add_argument(box_arg, location = ['headers','form','args'])
 
 
 
 # root
 # shows the possible routes
-class BaseDescriptionRessource(Resource):            
+class BaseDescriptionRessource(Resource):
+
     def get(self):
-   
-        return {
-                'App': 'Proxy API!',
-                'vers.:' : 'vers.: 0.3',
-                'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)), 
-                 'possible routes' : {
-                        'Box' : '/boxes/, /boxes/<int:box-id>',
-                        'Adress' : '/addresses/, /addresses/<int:box-id>'}
-                 }
+        parsed_args = parser.parse_args()
+        if parsed_args['api'] == '1':
+            return marshal(Rootdescription, base_field_full)
+        else:
+            return marshal(Rootdescription, base_field_customer)
 
 
 # address
@@ -67,7 +57,7 @@ class AddressRessource(Resource):
         address = session.query(Address).filter(Address.id == id).first()
         if not address:
             abort(404, message="Address {} doesn't exist".format(id))
-
+        ADDRESS_ARGS = valid_request_arguments['Address']
         parsed_args = parser.parse_args()
         for addr_arg in ADDRESS_ARGS:
             if addr_arg in parsed_args and parsed_args[addr_arg]:
@@ -100,8 +90,8 @@ class BoxRessource(Resource):
         box = session.query(Box).filter(Box.id == id).first()
         if not box:
             abort(404, message="Box {} doesn't exist".format(id))
-
         parsed_args = parser.parse_args()
+        BOX_ARGS = valid_request_arguments['Box']
         for box_arg in BOX_ARGS:
             if box_arg in parsed_args and parsed_args[box_arg]:
                 setattr(box, box_arg, parsed_args[box_arg])
