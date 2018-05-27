@@ -8,7 +8,8 @@ Created on Mon Apr  2 12:06:14 2018
 import os
 from flask import Flask
 from flask_restful import Api
-from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource, AddressListRessource, AddressRessource
+from src.ressources import BoxRessource, BoxListRessource, BaseDescriptionRessource, AddressListRessource, \
+    AddressRessource, ContentRessource, ContentListRessource
 from src.model_setup import init_database
 from src.settings import APP_CONFIG
 
@@ -32,10 +33,12 @@ api.add_resource(BoxListRessource, '/boxes/')
 api.add_resource(BoxRessource, '/boxes/<int:id>')
 api.add_resource(AddressListRessource, '/addresses/')
 api.add_resource(AddressRessource, '/addresses/<int:id>')
+api.add_resource(ContentRessource, '/contents/<int:id>')
+api.add_resource(ContentListRessource, '/contents/')
 
 
 
 if __name__ == '__main__':
     import os
     print(os.path.splitext("path_to_file")[0])
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)

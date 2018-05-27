@@ -16,5 +16,6 @@ APP_CONFIG = {
 valid_request_arguments = {
     'User' : ['api'],
     'Address' : ['name', 'str_name', 'str_no', 'city', 'post_code', 'country','start_date', 'end_date'],
-    'Box' : ['name', 'status', 'weight', 'size']
+    'Box' : ['name', 'status', 'weight', 'size'],
+    'Content' : ['name', 'style', 'size', 'prize', 'condition']
 }

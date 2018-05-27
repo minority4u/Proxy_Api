@@ -19,6 +19,7 @@ Base.metadata.create_all(engine)
 
 
 # Define the current Version for api endpoint description
+# for simplification dont create a table, but use this json as mocked table
 Rootdescription = {
                 'App': 'Proxy API!',
                 'Version' : '0.3',
@@ -28,14 +29,32 @@ Rootdescription = {
                         'Address' : '/addresses/, /addresses/<int:box-id>'}
                  }
 
+
+class Content(Base):
+    __tablename__ = 'content'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+    box_id = Column(Integer, ForeignKey('box.id'))
+
+    style = Column(String(50))
+    color = Column(String(50))
+    size = Column(String(3))
+    prize = Column(Integer)
+    condition = Column(String(20))
+
+
+
+
 class Address(Base):
 
      __tablename__ = 'address'
      id = Column(Integer, primary_key=True)
-     name = Column(String(250))
+     name = Column(String(100))
      str_name = Column(String(50))
      str_no = Column(String(10))
      city = Column(String(30))
+     state = Column(String(50))
      post_code = Column(String(10))
      country = Column(String(50))
      start_date = Column(DateTime, default=datetime.datetime.utcnow)
@@ -48,13 +67,24 @@ class Box(Base):
     
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
+
+    # one box has a current address
     addr_c_id = Column(Integer, ForeignKey('address.id'))
     addr_c = relationship(Address,foreign_keys=[addr_c_id], lazy='joined')
+
+    # one box has a destination address
     addr_d_id = Column(Integer, ForeignKey('address.id'))
     addr_d = relationship(Address, foreign_keys=[addr_d_id], lazy = 'joined')
+
+    # one box has a product
+    #box_content_id = Column(Integer, ForeignKey('content.id'))
+    box_contents = relationship('Content', lazy = 'joined')
+
     status = Column(String(250))
     weight = Column(String(250))
     size = Column(String(250))
+
+
 
 
 
