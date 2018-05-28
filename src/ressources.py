@@ -43,7 +43,7 @@ class BaseDescriptionRessource(Resource):
 # shows a single address item and lets you change and delete a address item
 class AddressRessource(Resource):
 
-    @marshal_with(address_fields_all)
+    @marshal_with(address_fields_full)
     def get(self, id):
         address = session.query(Address).filter(Address.id == id).first()
         if not address:
@@ -58,7 +58,7 @@ class AddressRessource(Resource):
         session.commit()
         return {}, 204
 
-    @marshal_with(address_fields_all)
+    @marshal_with(address_fields_full)
     def put(self, id):
         address = session.query(Address).filter(Address.id == id).first()
         if not address:
@@ -163,13 +163,13 @@ class BoxListRessource(Resource):
 # shows a list of all Addresses, and lets you POST to add a new address
 class AddressListRessource(Resource):
 
-    @marshal_with(address_fields_all)
+    @marshal_with(address_fields_full)
     def get(self):
         addresses = session.query(Address).all()
         print(addresses)
         return addresses
 
-    @marshal_with(address_fields_all)
+    @marshal_with(address_fields_full)
     def post(self):
         parsed_args = parser.parse_args()
         address = Address(**parsed_args)

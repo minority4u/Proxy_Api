@@ -1,6 +1,6 @@
 ---
 applications:
-- name: proxyapi03
+- name: revotrace
   memory: 512MB
   disk_quota: 256MB
   random-route: true

@@ -23,14 +23,14 @@ def init_database():
                                 style = 'Sneaker',
                                 color = 'white',
                                 size = 'US 9',
-                                prize = 85.00,
+                                price = '85.00 $',
                                 condition = 'new'
                                 )
         box_content_2 = Content(name='Nike Air Max 270',
                                 style='Sneaker',
                                 color='black',
                                 size='US 9',
-                                prize=85.00,
+                                price= '85.00 $',
                                 condition='new'
                                 )
         box_contents = [box_content_1, box_content_2]
@@ -49,10 +49,10 @@ def init_database():
 
         # create 10 destination addresses with a rising value at the end
         new_destination_address = Address(name='Paul Happy',
-                                          str_name='target road',
-                                          str_no='22' + str(x),
+                                          str_name='Target road',
+                                          str_no='42' + str(x),
                                           city='Happyplace',
-                                          post_code='12077',
+                                          post_code='94025',
                                           state='California',
                                           country='Germany',
                                           )
@@ -60,11 +60,12 @@ def init_database():
 
         # create 10 boxes with a current address, a destination address and a content
         new_box = Box(id=10100 + x ,
-                      name='new box' + str(x),
+                      name='new box ' + str(x),
                       addr_c=new_current_address,
                       addr_d=new_destination_address,
                       box_contents = box_contents,
-                      status = 'ready to ship',
+                      status = 'Delivery in Progress',
+                      customerStatus = 'Delivered',
                       weight = '2kg',
                       size = 'M'
                       )

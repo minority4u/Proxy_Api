@@ -26,7 +26,8 @@ Rootdescription = {
                 'Instance' : str(os.getenv("CF_INSTANCE_INDEX", 0)),
                  'possible_routes' : {
                         'Box' : '/boxes/, /boxes/<int:box-id>',
-                        'Address' : '/addresses/, /addresses/<int:box-id>'}
+                        'Address' : '/addresses/, /addresses/<int:box-id>',
+                     'Content': '/contents/, /contents/<int:content-id>'}
                  }
 
 
@@ -40,7 +41,7 @@ class Content(Base):
     style = Column(String(50))
     color = Column(String(50))
     size = Column(String(3))
-    prize = Column(Integer)
+    price = Column(String(10))
     condition = Column(String(20))
 
 
@@ -80,9 +81,10 @@ class Box(Base):
     #box_content_id = Column(Integer, ForeignKey('content.id'))
     box_contents = relationship('Content', lazy = 'joined')
 
-    status = Column(String(250))
-    weight = Column(String(250))
-    size = Column(String(250))
+    status = Column(String(50))
+    customerStatus = Column(String(50))
+    weight = Column(String(10))
+    size = Column(String(10))
 
 
 
