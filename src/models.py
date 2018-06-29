@@ -37,7 +37,6 @@ class Content(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     box_id = Column(Integer, ForeignKey('box.id'))
-
     style = Column(String(50))
     color = Column(String(50))
     size = Column(String(3))
@@ -51,8 +50,8 @@ class Address(Base):
 
      __tablename__ = 'address'
      id = Column(Integer, primary_key=True)
-     name = Column(String(100))
-     str_name = Column(String(50))
+     name = Column(String(50))
+     str_name = Column(String(25))
      str_no = Column(String(10))
      city = Column(String(30))
      state = Column(String(50))

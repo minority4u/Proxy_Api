@@ -8,7 +8,7 @@ DB_URI = 'sqlite:///./main.db'
 APP_CONFIG = {
     # return all errors for wrong requests at once
     'BUNDLE_ERRORS' : True,
-    'SERVER_PORT' : 9088
+    'SERVER_PORT' : 5000
 }
 
 
@@ -16,6 +16,6 @@ APP_CONFIG = {
 valid_request_arguments = {
     'User' : ['api'],
     'Address' : ['name', 'str_name', 'str_no', 'city', 'post_code', 'country','start_date', 'end_date'],
-    'Box' : ['name', 'status', 'customerStatus' 'weight', 'size'],
+    'Box' : ['name', 'status', 'customerStatus', 'weight', 'size'],
     'Content' : ['name', 'style', 'size', 'price', 'condition']
 }
