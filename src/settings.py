@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-DB_URI = 'sqlite:///./main.db'
+#DB_URI = 'sqlite:///./main.db'
+DB_URI = 'postgresql://usr:test@db/sqlalchemy'
 
 # define
 ##API_PORT = 9088

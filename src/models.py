@@ -39,7 +39,7 @@ class Content(Base):
     box_id = Column(Integer, ForeignKey('box.id'))
     style = Column(String(50))
     color = Column(String(50))
-    size = Column(String(3))
+    size = Column(String(5))
     price = Column(String(10))
     condition = Column(String(20))
 
