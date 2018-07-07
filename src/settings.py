@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+# define the underlying database
 #DB_URI = 'sqlite:///./main.db'
 DB_URI = 'postgresql://usr:test@db/sqlalchemy'
 

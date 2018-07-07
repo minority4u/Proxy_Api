@@ -112,7 +112,6 @@ venv.bak/
 
 # runtime database
 *.db
-*.db
-
-*.db
-*.db
+postgres-data/*
+mysql/*
+postgres-data/base/16384/16388
