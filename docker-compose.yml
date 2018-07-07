@@ -4,12 +4,14 @@ networks:
     driver: bridge
 
 services:
-  web:
-    build: .
+  rest:
+    #image: "minority4u/revotrace:v1"
+    build: restservice/
+    container_name: restservice
     ports:
      - "5000:5000"
     volumes:
-     - .:/code
+     - ./restservice:/code
     links:
       - mysqldb
     networks:
@@ -19,14 +21,17 @@ services:
         condition: service_healthy
   redis:
     image: "redis:alpine"
+    container_name: redisservice
     networks:
       - bridgednetwork
 
   mysqldb:
     image: mysql:5.5
+    container_name: mysqldb
     ports:
       - "3306:3306"
     volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
       - ./mysql/data:/var/lib/mysql
     networks:
       - bridgednetwork

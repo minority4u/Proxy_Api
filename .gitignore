@@ -117,4 +117,5 @@ postgres-data/base/*
 mysql/*
 postgres-data/base/16384/16388
 .mysql
+postgres-data
 
