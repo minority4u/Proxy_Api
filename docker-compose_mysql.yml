@@ -1,0 +1,25 @@
+version: '3.1'
+networks:
+  bridgednetwork:
+    driver: bridge
+
+services:
+
+  mysqldb:
+    image: mysql:5.5
+    ports:
+      - "3306:3306"
+    volumes:
+      - .mysql/data:/var/lib/mysql
+    networks:
+      - bridgednetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usr
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: sqlalchemy
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
+      timeout: 5s
+      retries: 20

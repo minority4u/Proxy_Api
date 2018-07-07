@@ -2,7 +2,8 @@
 
 # define the underlying database
 #DB_URI = 'sqlite:///./main.db'
-DB_URI = 'postgresql://usr:test@postgresdb/sqlalchemy'
+#DB_URI = 'postgresql://usr:test@postgresdb/sqlalchemy'
+DB_URI = 'mysql+pymysql://usr:test@mysqldb/sqlalchemy'
 
 # define
 ##API_PORT = 9088

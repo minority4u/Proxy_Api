@@ -1,8 +1,0 @@
----
-applications:
-- name: revotrace
-  memory: 512MB
-  disk_quota: 256MB
-  random-route: true
-  buildpack: python_buildpack
-  command: python proxy_main.py

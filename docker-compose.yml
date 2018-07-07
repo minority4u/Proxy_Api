@@ -1,6 +1,6 @@
 version: '2.1'
 networks:
-  postgresnetwork:
+  bridgednetwork:
     driver: bridge
 
 services:
@@ -11,27 +11,32 @@ services:
     volumes:
      - .:/code
     links:
-      - postgresdb
+      - mysqldb
     networks:
-      - postgresnetwork
+      - bridgednetwork
     depends_on:
-      postgresdb:
+      mysqldb:
         condition: service_healthy
   redis:
     image: "redis:alpine"
-
-  postgresdb:
-    image: "postgres"
-    environment:
-      POSTGRES_USER: usr
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: sqlalchemy
     networks:
-      - postgresnetwork
+      - bridgednetwork
+
+  mysqldb:
+    image: mysql:5.5
+    ports:
+      - "3306:3306"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - bridgednetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usr
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: sqlalchemy
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
       timeout: 5s
-      retries: 5
+      retries: 20
