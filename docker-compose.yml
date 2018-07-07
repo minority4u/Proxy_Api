@@ -11,16 +11,16 @@ services:
     volumes:
      - .:/code
     links:
-      - db
+      - postgresdb
     networks:
       - postgresnetwork
     depends_on:
-      db:
+      postgresdb:
         condition: service_healthy
   redis:
     image: "redis:alpine"
 
-  db:
+  postgresdb:
     image: "postgres"
     environment:
       POSTGRES_USER: usr
