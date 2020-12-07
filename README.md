@@ -1,7 +1,8 @@
-# Readme needs to be updated!!!
+# Flask based content management API
+Contains routes, some Mockdata, supports different db backends which are encapusalted via SQLAlchemy as ORM wrapper. Example implementation of different REST-endpoints. Could be deployed either via docker or via cloud foundry.
 
 # Description
-Very simple python based API project for CloudFoundry based deployment.
+Python based API project for CloudFoundry based deployment.
 * Python 3.6.x
 * Flask==0.12.2
 * SQLAlchemy==1.2.6
